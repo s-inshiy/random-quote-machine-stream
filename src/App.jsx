@@ -1,37 +1,32 @@
-import {
-  useState,
-  // useEffect
-} from 'react';
+import { useState, useEffect } from 'react';
+import { fetchData } from './services/api';
+import { getRandomNumber } from './utils/helpers';
+
 import reactLogo from './assets/react.svg';
 import './App.css';
 
-const URL =
-  'https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json';
-
-async function getData() {
-  try {
-    const response = await fetch(URL);
-    const data = await response.json();
-
-    const authors = data.quotes.map(
-      ({ author }) => author
-    );
-    return authors;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 function App() {
   const [count, setCount] = useState(0);
-  // const [authors, setAuthors] =
-  //   useState(null);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    async function fetchDataAsync() {
+      const data = await fetchData();
+      setData(data);
+    }
+    fetchDataAsync();
+  }, []);
 
   // useEffect(() => {
-  //   getData().then((data) => {
-  //     setAuthors(data);
-  //   });
-  // }, []);
+  //   if (data.length) {
+  //     console.log(
+  //       getRandomNumber(data.length)
+  //     );
+  //     console.log(
+  //       data[getRandomNumber(data.length)]
+  //     );
+  //   }
+  // }, [data]);
 
   return (
     <div className="App">
@@ -58,22 +53,25 @@ function App() {
         </a>
       </div>
       <h1>
-        Hey, TikTok {count}! Push a Like
-        button :)
+        Hey, TikTok! Push a Like button :)
       </h1>
-      {/* <ul>
-        {authors.map((author) => (
-          <li>{author}</li>
-        ))}
-      </ul> */}
-
+      <h1>
+        {!!data.length &&
+          `Author: ${
+            data[getRandomNumber(data.length)]
+              .author
+          }. Quote: ${
+            data[getRandomNumber(data.length)]
+              .quote
+          }`}
+      </h1>
       <div className="card">
         <button
           onClick={() =>
             setCount((count) => count + 1)
           }
         >
-          Like is {count}!
+          New quote
         </button>
         <p>
           Edit <code>src/App.jsx</code> and
@@ -89,3 +87,5 @@ function App() {
 }
 
 export default App;
+
+// ` `
