@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { fetchData } from './services/api';
-import { getRandomNumber } from './utils/helpers';
-
-import reactLogo from './assets/react.svg';
+import {
+  getRandomNumber,
+  getRandomColor,
+} from './utils/helpers';
 import './App.css';
 
 function App() {
@@ -24,25 +25,27 @@ function App() {
       setObject(
         data[getRandomNumber(data.length)]
       );
-      console.log(object);
     }
   }, [data]);
 
+  function handleBackgroundColorChange() {
+    const color = getRandomColor();
+    document.documentElement.style.setProperty(
+      '--bg-color',
+      color
+    );
+  }
+
+  function handleClick() {
+    const randomIndex = getRandomNumber(
+      data.length
+    );
+    setObject(data[randomIndex]);
+    handleBackgroundColorChange();
+  }
+
   return (
     <div className="App">
-      <div>
-        <a
-          href="https://reactjs.org"
-          target="_blank"
-        >
-          <img
-            src={reactLogo}
-            className="logo react"
-            alt="React logo"
-          />
-        </a>
-      </div>
-
       {object && (
         <div>
           <h2>{object.quote}</h2>
@@ -51,16 +54,8 @@ function App() {
       )}
 
       <div className="card">
-        <button
-          onClick={() => {
-            setObject(
-              data[
-                getRandomNumber(data.length)
-              ]
-            );
-          }}
-        >
-          New quote
+        <button onClick={handleClick}>
+          New Quote
         </button>
       </div>
     </div>
