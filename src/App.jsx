@@ -47,17 +47,27 @@ function App() {
   return (
     <div className="App">
       {object && (
-        <div>
-          <h2>{object.quote}</h2>
-          <h3>{object.author}</h3>
+        <div className="quote-box">
+          <p className="quote-text">
+            <i
+              className="fa fa-quote-left"
+              aria-hidden="true"
+            ></i>
+            {object.quote}
+          </p>
+          <div className="quote-author">
+            - {object.author}
+          </div>
+          <div>
+            <button
+              className="quote-button"
+              onClick={handleClick}
+            >
+              New Quote
+            </button>
+          </div>
         </div>
       )}
-
-      <div className="card">
-        <button onClick={handleClick}>
-          New Quote
-        </button>
-      </div>
     </div>
   );
 }
