@@ -53,6 +53,7 @@ button {
 }
 button:hover {
   border-color: #646cff;
+  opacity: .9;
 }
 button:focus,
 button:focus-visible {
